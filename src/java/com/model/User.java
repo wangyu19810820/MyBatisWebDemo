@@ -12,6 +12,8 @@ public class User {
 
     private String name;
 
+    private String otherName;
+
     // 用户类型
     private int userType;
 

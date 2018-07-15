@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+
 
 public class Lesson2 {
 
@@ -53,6 +55,20 @@ public class Lesson2 {
             sqlSession.commit();
 
             System.out.println(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test3() {
+        try {
+            String resource = "mybatis-config.xml";
+            InputStream inputStream = Resources.getResourceAsStream(resource);
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            SqlSession sqlSession = sqlSessionFactory.openSession();
+            List<User> users = sqlSession.selectList("mapper.UserMapper.selectAllUser");
+            users.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }

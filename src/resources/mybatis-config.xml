@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+    <!-- 引用外部配置文件 -->
     <properties resource="database.properties">
         <!--<property name="driver" value="org.h2.Driver"/>-->
         <!--<property name="url" value="jdbc:h2:file:~/sample.db"/>-->
