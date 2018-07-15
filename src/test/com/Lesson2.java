@@ -78,7 +78,7 @@ public class Lesson2 {
             InputStream inputStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
-            sqlSession.insert("mapper.UserMapper.insertStudent", user);
+            sqlSession.insert("com.dao.UserMapper.insertStudent", user);
             sqlSession.commit();
 
             System.out.println(user);
@@ -87,6 +87,7 @@ public class Lesson2 {
         }
     }
 
+    // 查询用户信息，学生有学号，教师有教工编号
     @Test
     public void test3() {
         try {
@@ -94,7 +95,7 @@ public class Lesson2 {
             InputStream inputStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
-            List<User> users = sqlSession.selectList("mapper.UserMapper.selectAllUser");
+            List<User> users = sqlSession.selectList("com.dao.UserMapper.selectAllUser");
             users.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();

@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -45,10 +46,10 @@ public class Lesson3 {
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
 
-            sqlSession.insert("mapper.CollegeMapper.insertCollege", college);
-            sqlSession.insert("mapper.UserMapper.insertUserAndCollege", user);
-            sqlSession.insert("mapper.ScoreMapper.insertScore", score1);
-            sqlSession.insert("mapper.ScoreMapper.insertScore", score2);
+            sqlSession.insert("com.dao.CollegeMapper.insertCollege", college);
+            sqlSession.insert("com.dao.UserMapper.insertUserAndCollege", user);
+            sqlSession.insert("com.dao.ScoreMapper.insertScore", score1);
+            sqlSession.insert("com.dao.ScoreMapper.insertScore", score2);
 
             sqlSession.commit();
 
@@ -66,7 +67,7 @@ public class Lesson3 {
             InputStream inputStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
-            List<User> users = sqlSession.selectList("mapper.UserMapper.selectUserAndCollege");
+            List<User> users = sqlSession.selectList("com.dao.UserMapper.selectUserAndCollege");
             users.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,7 +82,7 @@ public class Lesson3 {
             InputStream inputStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
-            List<User> users = sqlSession.selectList("mapper.UserMapper.selectUserAndCollegeScore");
+            List<User> users = sqlSession.selectList("com.dao.UserMapper.selectUserAndCollegeScore");
             users.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,7 +98,7 @@ public class Lesson3 {
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
             RowBounds rowBounds = new RowBounds(1, 1);
-            List<User> users = sqlSession.selectList("mapper.UserMapper.selectUserAndCollegeScore",
+            List<User> users = sqlSession.selectList("com.dao.UserMapper.selectUserAndCollegeScore",
                     null, rowBounds);
             users.forEach(System.out::println);
         } catch (IOException e) {
@@ -105,7 +106,7 @@ public class Lesson3 {
         }
     }
 
-    // 更加用户id查询成绩列表
+    // 根据用户id查询成绩列表
     @Test
     public void test5() {
         try {
@@ -113,7 +114,7 @@ public class Lesson3 {
             InputStream inputStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
-            List<Score> scoreList = sqlSession.selectList("mapper.ScoreMapper.selectScoreByUserId",
+            List<Score> scoreList = sqlSession.selectList("com.dao.ScoreMapper.selectScoreByUserId",
                     3);
             scoreList.forEach(System.out::println);
         } catch (IOException e) {
@@ -132,9 +133,28 @@ public class Lesson3 {
             SqlSession sqlSession = sqlSessionFactory.openSession();
 
             RowBounds rowBounds = new RowBounds(0, 1);
-            List<User> users = sqlSession.selectList("mapper.UserMapper.selectUserAndCollegeScoreByLazy",
+            List<User> users = sqlSession.selectList("com.dao.UserMapper.selectUserAndCollegeScoreByLazy",
                     null, rowBounds);
+            users.forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    // 通过变换sql写法，将分页参数传入xml中，解决分页数量不正确的问题
+    @Test
+    public void test7() {
+        try {
+            String resource = "mybatis-config.xml";
+            InputStream inputStream = Resources.getResourceAsStream(resource);
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            SqlSession sqlSession = sqlSessionFactory.openSession();
+
+            HashMap params = new HashMap();
+            params.put("pageSize", 1);
+            params.put("pageNumber", 1);
+            List<User> users = sqlSession.selectList("com.dao.UserMapper.selectUserAndCollegeScoreByPage",
+                    params);
             users.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com;
 
+import com.dao.UserMapper;
 import com.model.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.List;
 
 /**
  * 最简单的demo
@@ -51,7 +53,7 @@ public class Lesson1 {
             InputStream inputStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
-            sqlSession.insert("mapper.UserMapper.insert", user);
+            sqlSession.insert("com.dao.UserMapper.insert", user);
             sqlSession.commit();
 
             System.out.println(user);
@@ -68,8 +70,25 @@ public class Lesson1 {
             InputStream inputStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             SqlSession sqlSession = sqlSessionFactory.openSession();
-            Object users = sqlSession.selectList("mapper.UserMapper.selectAll");
+            Object users = sqlSession.selectList("com.dao.UserMapper.selectAll");
             System.out.println(users);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test3() {
+        try {
+            String resource = "mybatis-config.xml";
+            InputStream inputStream = Resources.getResourceAsStream(resource);
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            SqlSession sqlSession = sqlSessionFactory.openSession();
+
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            List<User> users = userMapper.selectAll();
+
+            users.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
