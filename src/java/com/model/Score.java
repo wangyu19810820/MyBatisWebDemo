@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class Score {
+public class Score extends BaseModel {
 
     private Integer id;
     private String name;
@@ -19,4 +19,20 @@ public class Score {
 
     private LocalDateTime addTime;
 
+    @Override
+    public String toString() {
+        return "Score{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", score=" + score +
+                ", user=" + user +
+                ", scoreType=" + scoreType +
+                ", scoreGrade=" + scoreGrade +
+                ", addTime=" + addTime +
+                ", addDttm=" + addDttm +
+                ", addUser='" + addUser + '\'' +
+                ", lastUpdDttm=" + lastUpdDttm +
+                ", lastUpdUser='" + lastUpdUser + '\'' +
+                "} " + super.toString();
+    }
 }

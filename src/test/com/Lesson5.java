@@ -19,6 +19,8 @@ import java.util.List;
 // EnumTypeHandler在数据库中存储枚举的字符值，EnumOrdinalTypeHandler存储枚举的索引值
 // 自定义类型处理器处理LocalDateTime和Timestamp之间的转换
 // 都在配置文件中配置
+
+// 插件实现Interceptor接口，用注解标记拦截方法，并在配置文件中注册插件
 public class Lesson5 {
 
     @Test
