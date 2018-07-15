@@ -9,6 +9,13 @@
         <result column="name" property="name"></result>
     </resultMap>
 
+    <sql id="selectColumn">select ID, NAME, LOCATION from college</sql>
+
+    <select id="selectCollegeById" resultType="com.model.College">
+        <include refid="selectColumn" /> where ID = #{_parameter}
+    </select>
+
+
     <!-- h2数据库采用序列作为主键id的值，mysql采用自增主键 -->
     <insert id="insertCollege" useGeneratedKeys="true" keyProperty="id">
         <selectKey keyProperty="id" resultType="int" order="BEFORE">
@@ -21,10 +28,6 @@
         </selectKey>
         insert into college (ID, NAME, LOCATION) values (#{id}, #{name}, #{location});
     </insert>
-
-    <select id="selectCollegeById" resultType="com.model.College">
-        select ID, NAME from college where ID = #{_parameter}
-    </select>
 
     <!-- where可自动修剪多余的and和or -->
     <!-- bind可以从OGNL表达式中创建一个变量并将其绑定到上下文 -->
@@ -41,7 +44,37 @@
         </where>
     </select>
 
-    <!-- set可以去除多余的分隔符"," -->
+    <!-- <choose>标签，用于多项分支选择 -->
+    <select id="selectCollegeBySearch1" resultType="com.model.College">
+        <bind name="namePattern" value="'%' + name + '%'"></bind>
+        select ID, NAME, LOCATION from college where 1 = 1
+        <choose>
+            <when test="name != null">
+                and name like #{namePattern}
+            </when>
+            <when test="id != null">
+                and id = #{id}
+            </when>
+            <otherwise>
+                and ID is not null
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectCollegeBySearch2" resultType="com.model.College">
+        <bind name="namePattern" value="'%' + name + '%'"></bind>
+        select ID, NAME, LOCATION from college
+        <trim prefix="where" prefixOverrides="AND | OR">
+            <if test="name != null">
+                and name like #{namePattern}
+            </if>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </trim>
+    </select>
+
+    <!-- set标签，用在update语句中，可以去除多余的分隔符"," -->
     <update id="updateById">
         update college
         <set>
@@ -55,6 +88,11 @@
         where id = #{id}
     </update>
 
-
+    <insert id="insertBatch" parameterType="List">
+        insert into college (ID, NAME, LOCATION) values
+        <foreach collection="list" item="item" index="index" open="" close="" separator=",">
+            (#{item.id}, #{item.name}, #{item.location})
+        </foreach>
+    </insert>
 
 </mapper>
