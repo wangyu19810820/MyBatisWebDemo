@@ -9,12 +9,52 @@
         <result column="name" property="name"></result>
     </resultMap>
 
+    <!-- h2数据库采用序列作为主键id的值，mysql采用自增主键 -->
     <insert id="insertCollege" useGeneratedKeys="true" keyProperty="id">
-        insert into college (NAME) values (#{name})
+        <selectKey keyProperty="id" resultType="int" order="BEFORE">
+            <if test="_databaseId == 'h2'">
+                select collegesequence.nextval from dual
+            </if>
+            <if test="_databaseId == 'mysql'">
+                select null
+            </if>
+        </selectKey>
+        insert into college (ID, NAME, LOCATION) values (#{id}, #{name}, #{location});
     </insert>
 
     <select id="selectCollegeById" resultType="com.model.College">
         select ID, NAME from college where ID = #{_parameter}
     </select>
+
+    <!-- where可自动修剪多余的and和or -->
+    <!-- bind可以从OGNL表达式中创建一个变量并将其绑定到上下文 -->
+    <select id="selectCollegeBySearch" resultType="com.model.College">
+        <bind name="namePattern" value="'%' + name + '%'"></bind>
+        select ID, NAME from college
+        <where>
+            <if test="name != null">
+                and name like #{namePattern}
+            </if>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <!-- set可以去除多余的分隔符"," -->
+    <update id="updateById">
+        update college
+        <set>
+            <if test="name != null">
+                NAME = #{name},
+            </if>
+            <if test="location != null">
+                LOCATION = #{location},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
 
 </mapper>

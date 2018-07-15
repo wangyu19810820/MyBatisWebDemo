@@ -49,6 +49,9 @@ public class SpringConfig {
 //        return ppc;
 //    }
 
+    // 通过网上查资料和手动实验下来
+    // xml中可以通过配置SqlSessionFactoryBeanName使用properties
+    // java config中好像不行
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();

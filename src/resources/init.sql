@@ -10,11 +10,22 @@ create table USER (
   primary key(id)
 );
 
+-- h2
+create table COLLEGE (
+  `id` integer,
+  `name` varchar(100),
+  `location` varchar(100),
+  primary key(id)
+);
+
+-- mysql
 create table COLLEGE (
   `id` integer AUTO_INCREMENT,
   `name` varchar(100),
+  `location` varchar(100),
   primary key(id)
 );
+create sequence collegesequence start with 1;
 
 create table SCORE (
   `id` integer AUTO_INCREMENT,

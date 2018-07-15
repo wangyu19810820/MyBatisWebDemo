@@ -11,4 +11,7 @@ public class College {
     private Integer id;
 
     private String name;
+
+    private String location;
+
 }
