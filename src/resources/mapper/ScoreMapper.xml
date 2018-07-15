@@ -5,16 +5,21 @@
 <mapper namespace="com.dao.ScoreMapper">
 
     <insert id="insertScore" useGeneratedKeys="true" keyProperty="id">
-        insert into SCORE (NAME, SCORE, USERID) values (#{name}, #{score}, #{user.id})
+        insert into SCORE (NAME, SCORE, USERID, SCORETYPE, SCOREGRADE, ADDTIME)
+        values (#{name}, #{score}, #{user.id}, #{scoreType}, #{scoreGrade}, #{addTime})
     </insert>
 
     <select id="selectScoreByUserId" resultType="com.model.Score">
-        select ID, NAME, SCORE from SCORE
+        select ID, NAME, SCORE, SCORETYPE, SCOREGRADE, ADDTIME from SCORE
         <where>
             <if test="_parameter != null">
                 USERID = #{_parameter}
             </if>
         </where>
+    </select>
+
+    <select id="selectScore" resultType="com.model.Score">
+        select ID, NAME, SCORE, SCORETYPE, SCOREGRADE, ADDTIME from SCORE
     </select>
 
 </mapper>

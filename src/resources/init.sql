@@ -32,5 +32,8 @@ create table SCORE (
   `name` varchar(100),
   `score` decimal,
   `userid` integer,
+  `scoretype` integer,
+  `scoregrade` varchar(100),
+  `addtime` timestamp,
   primary key(id)
 );

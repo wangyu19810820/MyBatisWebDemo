@@ -27,6 +27,12 @@
         <!--<setting name="aggressiveLazyLoading" value="false"/>-->
     </settings>
 
+    <typeHandlers>
+        <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.enumerate.ScoreTypeEnum" />
+        <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler" javaType="com.enumerate.ScoreGradeEnum" />
+        <typeHandler handler="com.type.LocalDateTimeHandler" javaType="java.time.LocalDateTime" />
+    </typeHandlers>
+
     <!--<plugins>-->
         <!--<plugin interceptor="com.github.pagehelper.PageInterceptor">-->
             <!--<property name="helperDialect" value="h2"/>-->
