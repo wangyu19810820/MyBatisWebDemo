@@ -21,15 +21,19 @@
     <settings>
         <!-- 打印查询语句 -->
         <setting name="logImpl" value="STDOUT_LOGGING" />
+
+        <!-- 全局延迟加载 -->
+        <!--<setting name="lazyLoadingEnabled" value="true" />-->
+        <!--<setting name="aggressiveLazyLoading" value="false"/>-->
     </settings>
 
-    <plugins>
-        <plugin interceptor="com.github.pagehelper.PageInterceptor">
-            <property name="helperDialect" value="h2"/>
-            <property name="offsetAsPageNum" value="true"/>
-            <property name="rowBoundsWithCount" value="true"/>
-        </plugin>
-    </plugins>
+    <!--<plugins>-->
+        <!--<plugin interceptor="com.github.pagehelper.PageInterceptor">-->
+            <!--<property name="helperDialect" value="h2"/>-->
+            <!--<property name="offsetAsPageNum" value="true"/>-->
+            <!--<property name="rowBoundsWithCount" value="true"/>-->
+        <!--</plugin>-->
+    <!--</plugins>-->
 
     <environments default="development">
         <environment id="development">
@@ -45,6 +49,9 @@
 
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/CollegeMapper.xml"/>
+        <mapper resource="mapper/ScoreMapper.xml"/>
+
         <!--<mapper resource="Teacher.xml"/>-->
         <!--<mapper resource="Student.xml"/>-->
         <!--<mapper resource="College.xml"/>-->

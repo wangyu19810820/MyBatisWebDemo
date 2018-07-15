@@ -53,7 +53,7 @@
     <dependency>
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis</artifactId>
-      <version>3.2.1</version>
+      <version>3.4.6</version>
     </dependency>
 
     <dependency>
@@ -131,6 +131,13 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>8.0.11</version>
     </dependency>
+
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>3.2.7</version>
+    </dependency>
+
 
   </dependencies>
 

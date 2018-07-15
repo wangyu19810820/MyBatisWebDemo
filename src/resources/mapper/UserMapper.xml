@@ -16,6 +16,7 @@
     </select>
 
 
+    <!-- 鉴别器 -->
     <resultMap id="studentResultMap" type="com.model.User" autoMapping="false">
         <id column="id" property="id"></id>
         <result column="studentnumber" property="studentNumber"></result>
@@ -24,6 +25,21 @@
     <resultMap id="defaultResultMap" type="com.model.User" autoMapping="false">
         <id column="id" property="id"></id>
         <result column="name" property="name"></result>
+
+        <!-- 单条sql查询所有内容，组装一对一，一对多，分页查询会有数量bug -->
+        <!-- 一对一，columnPrefix指定映射前缀 -->
+        <association property="college" columnPrefix="c_"
+                     resultMap="mapper.CollegeMapper.defaultResultMap">
+        </association>
+
+        <!-- 一对多 -->
+        <collection property="scoreList" columnPrefix="s_"
+                    ofType="com.model.Score">
+            <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+            <result property="score" column="score"></result>
+        </collection>
+
         <!-- 鉴别器 -->
         <discriminator javaType="_int" column="usertype">
             <!-- 匹配后整体应用新映射 -->
@@ -36,6 +52,7 @@
             </case>
             <!-- 未能匹配，则应用原映射 -->
         </discriminator>
+
     </resultMap>
 
     <!-- 新增教师 -->
@@ -51,6 +68,51 @@
     <!-- 选择所有用户，应用鉴别器 -->
     <select id="selectAllUser" resultMap="defaultResultMap">
         select ID, NAME, USERTYPE, STUDENTNUMBER, TEACHERNUMBER from USER
+    </select>
+
+
+    <!-- 新增用户包含所属学院 -->
+    <insert id="insertUserAndCollege" useGeneratedKeys="true" keyProperty="id">
+        insert into USER (NAME, COLLEGEID) values (#{name}, #{college.id})
+    </insert>
+
+    <!-- 查询用户及所属学院信息，包含一对一映射 -->
+    <select id="selectUserAndCollege" resultMap="defaultResultMap">
+        select u.ID, u.NAME, u.USERTYPE, c.ID C_ID, c.NAME C_NAME from USER u
+        join COLLEGE c on u.COLLEGEID = c.id
+    </select>
+
+    <!-- 查询用户及所属学院、成绩信息，包含一对一，一对多映射 -->
+    <select id="selectUserAndCollegeScore" resultMap="defaultResultMap">
+        select u.ID, u.NAME, u.USERTYPE,
+        c.ID C_ID, c.NAME C_NAME,
+        s.ID S_ID, s.NAME S_NAME, s.SCORE S_SCORE
+        from USER u
+        join COLLEGE c on u.COLLEGEID = c.id
+        join SCORE s on u.ID = s.USERID
+    </select>
+
+    <!-- 多条sql，分步查询组装一对一，一对多映射，分页查询无数量bug -->
+    <resultMap id="defaultResultMap1" type="com.model.User" autoMapping="false">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+
+        <!-- 一对一 -->
+        <association fetchType="eager" property="college" column="COLLEGEID"
+                     select="mapper.CollegeMapper.selectCollegeById">
+        </association>
+
+        <!-- 一对多 -->
+        <collection fetchType="lazy" property="scoreList" column="id"
+                    ofType="com.model.Score"
+                    select="mapper.ScoreMapper.selectScoreByUserId">
+        </collection>
+
+    </resultMap>
+
+    <!-- 查询用户及所属学院信息，采用多条sql完成一对一和一对多映射 -->
+    <select id="selectUserAndCollegeScoreByLazy" resultMap="defaultResultMap1">
+        select u.ID, u.NAME, u.USERTYPE, u.COLLEGEID from USER u
     </select>
 
 </mapper>

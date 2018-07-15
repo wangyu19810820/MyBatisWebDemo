@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 /**
+ * 最简单的demo
  * 通过MyBatis原生方式，加载配置文件，新增数据，获取查询内容
  */
 public class Lesson1 {

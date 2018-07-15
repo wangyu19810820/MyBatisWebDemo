@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CollegeMapper">
+
+    <resultMap id="defaultResultMap" type="com.model.College">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+    </resultMap>
+
+    <insert id="insertCollege" useGeneratedKeys="true" keyProperty="id">
+        insert into college (NAME) values (#{name})
+    </insert>
+
+    <select id="selectCollegeById" resultType="com.model.College">
+        select ID, NAME from college where ID = #{_parameter}
+    </select>
+
+</mapper>

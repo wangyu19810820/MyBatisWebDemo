@@ -2,6 +2,11 @@ package com.model;
 
 import lombok.Data;
 
+import java.util.List;
+
+/**
+ * 学生
+ */
 @Data
 public class User {
 
@@ -23,4 +28,9 @@ public class User {
     // 教工编号，用户类型为教师时，才有教工编号
     private String teacherNumber;
 
+    // 所属学院
+    private College college;
+
+    // 成绩列表
+    private List<Score> scoreList;
 }
