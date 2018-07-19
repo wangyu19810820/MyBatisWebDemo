@@ -21,6 +21,7 @@
         <!-- 打印查询语句 -->
         <setting name="logImpl" value="STDOUT_LOGGING" />
 
+        <!-- 开启二级缓存 -->
         <setting name="cacheEnabled" value="true" />
 
         <!-- 全局延迟加载 -->
