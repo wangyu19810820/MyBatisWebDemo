@@ -2,13 +2,14 @@ package com.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 学生
  */
 @Data
-public class User {
+public class User implements Serializable {
 
     public static int UserTypeStudent = 0;
     public static int UserTypeTeacher = 1;

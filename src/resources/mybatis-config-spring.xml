@@ -21,6 +21,8 @@
         <!-- 打印查询语句 -->
         <setting name="logImpl" value="STDOUT_LOGGING" />
 
+        <setting name="cacheEnabled" value="true" />
+
         <!-- 全局延迟加载 -->
         <!--<setting name="lazyLoadingEnabled" value="true" />-->
         <!--<setting name="aggressiveLazyLoading" value="false"/>-->
@@ -34,28 +36,10 @@
         <!--</plugin>-->
     <!--</plugins>-->
 
-    <!--<environments default="development">-->
-        <!--<environment id="development">-->
-            <!--<transactionManager type="JDBC"/>-->
-            <!--<dataSource type="POOLED">-->
-                <!--<property name="driver" value="${db.driver}"/>-->
-                <!--<property name="url" value="${db.url}"/>-->
-                <!--<property name="username" value="${db.username}"/>-->
-                <!--<property name="password" value="${db.password}"/>-->
-            <!--</dataSource>-->
-        <!--</environment>-->
-    <!--</environments>-->
-
     <databaseIdProvider type="DB_VENDOR">
         <property name="MySQL" value="mysql" />
         <property name="Oracle" value="oracle" />
         <property name="H2" value="h2" />
     </databaseIdProvider>
-
-    <!--<mappers>-->
-        <!--<mapper resource="mapper/UserMapper.xml" />-->
-        <!--<mapper resource="mapper/CollegeMapper.xml"/>-->
-        <!--<mapper resource="mapper/ScoreMapper.xml"/>-->
-    <!--</mappers>-->
 
 </configuration>
