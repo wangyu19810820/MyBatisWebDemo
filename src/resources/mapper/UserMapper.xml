@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dao.UserMapper">
 
-    <cache/>
+    <cache type="org.mybatis.caches.redis.RedisCache" />
 
     <!-- 获取数据库自增主键，需要指定useGeneratedKeys和keyProperty -->
     <!-- #{xxx}，${xxx}，前一种自动转义，后一种直接拼接 -->
